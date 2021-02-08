@@ -5,18 +5,78 @@
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width,initial-scale=1"/>
 		<link rel="stylesheet" type="text/css" href="./css/w3.css"/>
+		<style>
+		#icones {
+
+		}
+		.icone {
+			display: inline-block;
+			text-decoration: none;
+			width: 100px;
+			vertical-align: top;
+			text-align: center;
+			font-size: 10pt;
+			margin: 5px;
+			border: solid 1px white;
+		}
+		.icone img {
+			display: inline-block;
+			margin: 5px;
+		}
+		.icone:hover {
+			border: solid 1px gray;
+		}
+		</style>
+		<script>
+		var arquivos = [
+			{"titulo": "Calendário 2021", "url": "calendario2021.pdf"},
+			{"titulo": "Cabeçalho - Documento Vertical", "url": "cabecalho-documento-vertical.emf"}
+		];
+		window.onload = function() {
+			var icones = document.getElementById("icones");
+			for (var i = 0; i < arquivos.length; i++) {
+				var icone = document.createElement("a");
+				icone.setAttribute("class", "icone");
+				icone.setAttribute("href", "./doc/" + arquivos[i].url);
+				icone.setAttribute("target", "_blank");
+				icone.setAttribute("download", "");
+				var img = document.createElement("img");
+				img.setAttribute("height", 60);
+				img.setAttribute("width", 60);
+				var tipo = arquivos[i].url.split(".")[1];
+				switch (tipo) {
+					case "pdf":
+						img.setAttribute("src", "./img/icone-pdf.png");
+						break;
+					default: 
+						img.setAttribute("src", "./img/icone.png");
+				}
+				icone.appendChild(img);
+				var titulo = document.createElement("div");
+				titulo.setAttribute("class", "titulo");
+				titulo.innerHTML = arquivos[i].titulo;
+				icone.appendChild(titulo);
+				icones.appendChild(icone);
+			}
+		}
+		</script>
 	</head>
 	<body>
 		<header class="w3-container w3-teal">
 			<h1>Secretaria Municipal de Educação de Martinópole</h1>
 		</header>
+		<div id="icones">
+		</div>
+		<!--
 		<ul class="w3-ul">
+
 			<li><a target="_blank" href="./doc/calendario2021.pdf" download>Calendário 2021 (PDF)</a></li>
 			<li><a target="_blank" href="./doc/cabecalho-documento-vertical.emf">Cabeçalho para documento vertical (EMF)</a></li>
 			<li><a target="_blank" href="./doc/cabecalho-documento-horizontal.svg" download>Cabeçalho para documento horizontal (SVG)</a></li>
 			<li><a target="_blank" href="./doc/rodape-documento-vertical.emf"/>Rodapé para documento vertical (EMF)</a></li>
 			<li><a target="_blank" href="./doc/rodape-documento-horizontal.svg" download>Rodapé para documento horizontal (SVG)</a></li>
 		</ul>
+		-->
 		<footer class="w3-container w3-teal">
 
 		</footer>
