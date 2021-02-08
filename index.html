@@ -6,8 +6,8 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1"/>
 		<link rel="stylesheet" type="text/css" href="./css/w3.css"/>
 		<style>
-		#icones {
-
+		#desktop {
+			text-align: left;
 		}
 		.icone {
 			display: inline-block;
@@ -15,9 +15,10 @@
 			width: 100px;
 			vertical-align: top;
 			text-align: center;
-			font-size: 10pt;
+			font-size: 9pt;
 			margin: 5px;
 			border: solid 1px white;
+			cursor: pointer;
 		}
 		.icone img {
 			display: inline-block;
@@ -28,55 +29,102 @@
 		}
 		</style>
 		<script>
-		var arquivos = [
-			{"titulo": "Calendário 2021", "url": "calendario2021.pdf"},
-			{"titulo": "Cabeçalho - Documento Vertical", "url": "cabecalho-documento-vertical.emf"}
+		var documentos = [
+			{"titulo": "Cabeçalho Documento Vertical", "url": "cabecalho-documento-vertical.emf"},
+			{"titulo": "Cabeçalho Documento Horizontal", "url": "cabecalho-documento-horizontal.svg"},
+			{"titulo": "Rodapé Documento Vertical", "url": "rodape-documento-vertical.emf"},
+			{"titulo": "Rodapé Documento Horizontal ", "url": "rodape-documento-vertical.svg"}
+		];
+		var imagens = [
+			{"titulo": "Cabeçalho Documento Vertical", "url": "cabecalho-documento-vertical.emf"},
+			{"titulo": "Cabeçalho Documento Horizontal", "url": "cabecalho-documento-horizontal.svg"},
+			{"titulo": "Rodapé Documento Vertical", "url": "rodape-documento-vertical.emf"},
+			{"titulo": "Rodapé Documento Horizontal ", "url": "rodape-documento-vertical.svg"}
+		];
+		var raiz = [
+			{"titulo": "Documentos", "conteudo": documentos},
+			{"titulo": "Imagens", "conteudo": imagens}
 		];
 		window.onload = function() {
-			var icones = document.getElementById("icones");
-			for (var i = 0; i < arquivos.length; i++) {
-				var icone = document.createElement("a");
+			var desktop = document.getElementById("desktop");
+			for (var i = 0; i < raiz.length; i++) {
+				var icone = document.createElement("div");
 				icone.setAttribute("class", "icone");
-				icone.setAttribute("href", "./doc/" + arquivos[i].url);
-				icone.setAttribute("target", "_blank");
-				icone.setAttribute("download", "");
 				var img = document.createElement("img");
 				img.setAttribute("height", 60);
-				img.setAttribute("width", 60);
-				var tipo = arquivos[i].url.split(".")[1];
-				switch (tipo) {
-					case "pdf":
-						img.setAttribute("src", "./img/icone-pdf.png");
-						break;
-					default: 
-						img.setAttribute("src", "./img/icone.png");
-				}
+				img.setAttribute("width", 52);
+				img.setAttribute("src", "./img/icone-pasta.png");
 				icone.appendChild(img);
 				var titulo = document.createElement("div");
 				titulo.setAttribute("class", "titulo");
-				titulo.innerHTML = arquivos[i].titulo;
+				titulo.innerHTML = raiz[i].titulo;
 				icone.appendChild(titulo);
-				icones.appendChild(icone);
+				var pastaAtual = raiz[i];
+				icone.addEventListener("click", function() {
+					var janela = document.createElement("div");
+					janela.setAttribute("class", "janela");
+					var barraTitulo = document.createElement("div");
+					barraTitulo.setAttribute("class", "barraTitulo");
+					barraTitulo.innerHTML = pastaAtual.titulo;
+					var botaoFechar = document.createElement("div");
+					botaoFechar.setAttribute("class", "botaoFechar");
+					botaoFechar.innerHTML = "X";
+					botaoFechar.addEventListener("click", function() {
+						desktop.removeChild(janela);
+					});
+					barraTitulo.appendChild(botaoFechar);
+					var conteudo = document.createElement("div");
+					conteudo.setAttribute("class", "conteudo");
+					for (var j = 0; j < pastaAtual.conteudo.length; j++) {
+					console.log(pastaAtual.conteudo[j]);
+						var icone = document.createElement("a");
+						icone.setAttribute("class", "icone");
+						icone.setAttribute("href", "./doc/" + pastaAtual.conteudo[j].url);
+						icone.setAttribute("target", "_blank");
+						icone.setAttribute("download", "");
+						var img = document.createElement("img");
+						img.setAttribute("height", 60);
+						img.setAttribute("width", 52);
+						var tipo = pastaAtual.conteudo[j].url.split(".")[1];
+						switch (tipo) {
+							case "pdf":
+								img.setAttribute("src", "./img/icone-pdf.png");
+								break;
+							case "emf":
+								img.setAttribute("src", "./img/icone-emf.png");
+								break;
+							case "svg":
+								img.setAttribute("src", "./img/icone-svg.png");
+								break;
+							default: 
+								img.setAttribute("src", "./img/icone.png");
+						}
+						icone.appendChild(img);
+						var titulo = document.createElement("div");
+						titulo.setAttribute("class", "titulo");
+						titulo.innerHTML = pastaAtual.conteudo[j].titulo;
+						icone.appendChild(titulo);
+						conteudo.appendChild(icone);
+					}
+					desktop.appendChild(janela);
+					
+				});
+				desktop.appendChild(icone);
 			}
+			/*
+			for (var i = 0; i < arquivos.length; i++) {
+				
+			}
+			*/
 		}
 		</script>
 	</head>
 	<body>
-		<header class="w3-container w3-teal">
-			<h1>Secretaria Municipal de Educação de Martinópole</h1>
+		<header class="w3-container w3-center w3-teal">
+			<h1><b>SME Martinópole</b></h1>
 		</header>
-		<div id="icones">
+		<div id="desktop">
 		</div>
-		<!--
-		<ul class="w3-ul">
-
-			<li><a target="_blank" href="./doc/calendario2021.pdf" download>Calendário 2021 (PDF)</a></li>
-			<li><a target="_blank" href="./doc/cabecalho-documento-vertical.emf">Cabeçalho para documento vertical (EMF)</a></li>
-			<li><a target="_blank" href="./doc/cabecalho-documento-horizontal.svg" download>Cabeçalho para documento horizontal (SVG)</a></li>
-			<li><a target="_blank" href="./doc/rodape-documento-vertical.emf"/>Rodapé para documento vertical (EMF)</a></li>
-			<li><a target="_blank" href="./doc/rodape-documento-horizontal.svg" download>Rodapé para documento horizontal (SVG)</a></li>
-		</ul>
-		-->
 		<footer class="w3-container w3-teal">
 
 		</footer>
