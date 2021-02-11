@@ -7,7 +7,7 @@
 		<link rel="stylesheet" type="text/css" href="./css/w3.css"/>
 		<style>
 		body {
-			background: lightgray;
+			background: #fff9e6;
 		}
 		#desktop {
 			text-align: center;
@@ -38,6 +38,7 @@
 			left: 50%;
 			transform: translate(-50%, -50%);
 			border: solid 1px gray;
+			box-shadow: 5px 5px 10px gray;
 		}
 		.conteudo {
 			background: white;
@@ -47,7 +48,7 @@
 			font-size: small;
 			color: white;
 			font-weight: bold;
-			background: linear-gradient(to bottom, darkblue, blue);
+			background:  #006666;
 			width: 100%;
 			overflow: auto;
 			height: 25px;
@@ -62,6 +63,14 @@
 			text-align: center;
 			color: white;
 			cursor: pointer;
+			vertical-align: middle;
+		}
+		.botaoFechar span {
+			display: inline-block;
+			font-size: 12pt;
+		}
+		.botaoFechar:hover {
+			background: #ff0066;
 		}
 		</style>
 		<script>
@@ -78,11 +87,13 @@
 			{"titulo": "Calendário Letivo 2021 Montar (3 x 3)", "url": "calendario2021-montar.pdf"},
 			{"titulo": "Declaração de Matrícula", "url": "declaracao-matricula.pdf"},
 			{"titulo": "Declaração de Vagas", "url": "declaracao-vagas.pdf"},
+			{"titulo": "Timbrado Vertical", "url": "timbrado-vertical.odt"},
+			{"titulo": "Timbrado Horizontal", "url": "timbrado-horizontal.odt"},
 		];
 		var imagens = [
 			new Arquivo("Cabeçalho Documento Vertical", "cabecalho-documento-vertical.emf"),
-			new Arquivo("Cabeçalho Documento Horizontal", "cabecalho-documento-horizontal.svg"),
 			new Arquivo("Rodapé Documento Vertical", "rodape-documento-vertical.emf"),
+			new Arquivo("Cabeçalho Documento Horizontal", "cabecalho-documento-horizontal.svg"),
 			new Arquivo("Rodapé Documento Horizontal", "rodape-documento-horizontal.svg"),
 			new Arquivo("SME Logotipo", "sme.svg"),
 			new Arquivo("Prefeitura Logotipo", "prefeitura.png")
@@ -101,7 +112,9 @@
 			barraTitulo.innerHTML = pastaAtual.titulo;
 			var botaoFechar = document.createElement("div");
 			botaoFechar.setAttribute("class", "botaoFechar");
-			botaoFechar.innerHTML = "&times;";
+			var spanBotaoFechar = document.createElement("span");
+			spanBotaoFechar.innerHTML = "&times;";
+			botaoFechar.appendChild(spanBotaoFechar);
 			botaoFechar.addEventListener("click", function() {
 				desktop.removeChild(janela);
 			});
@@ -128,6 +141,9 @@
 						break;
 					case "png":
 						img.setAttribute("src", "./img/icone-png.png");
+						break;
+					case "odt":
+						img.setAttribute("src", "./img/icone-odt.png");
 						break;
 					case "svg":
 						img.setAttribute("src", "./img/icone-svg.png");
@@ -167,7 +183,7 @@
 		</script>
 	</head>
 	<body>
-		<header class="w3-container w3-teal w3-center">
+		<header class="w3-container  w3-deep-purple w3-center">
 			<h1><img src="./img/sme.png" height="40" width="175"/> <b>Arquivos</b></h1>
 		</header>
 		<div id="desktop">
