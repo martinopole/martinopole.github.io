@@ -84,7 +84,8 @@
 			new Arquivo("Cabeçalho Documento Horizontal", "cabecalho-documento-horizontal.svg"),
 			new Arquivo("Rodapé Documento Vertical", "rodape-documento-vertical.emf"),
 			new Arquivo("Rodapé Documento Horizontal", "rodape-documento-horizontal.svg"),
-			new Arquivo("SME Logotipo", "sme.svg")
+			new Arquivo("SME Logotipo", "sme.svg"),
+			new Arquivo("Prefeitura Logotipo", "prefeitura.png")
 		];
 		var raiz = [
 			new Pasta("Imagens", imagens),
@@ -124,6 +125,9 @@
 						break;
 					case "emf":
 						img.setAttribute("src", "./img/icone-emf.png");
+						break;
+					case "png":
+						img.setAttribute("src", "./img/icone-png.png");
 						break;
 					case "svg":
 						img.setAttribute("src", "./img/icone-svg.png");
