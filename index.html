@@ -90,8 +90,8 @@
 			{"titulo": "Ficha de Matrícula", "url": "ficha-matricula.pdf"},
 			{"titulo": "Mapa das Escolas", "url": "mapa-escolar.pdf"},
 			{"titulo": "Proposta Curricular Matemática F2", "url": "pc-matematica-f2.pdf"},
-			{"titulo": "Timbrado Vertical", "url": "timbrado-vertical.odt"},
-			{"titulo": "Timbrado Horizontal", "url": "timbrado-horizontal.odt"},
+			{"titulo": "Modelo Vertical (LibreOffice Writer)", "url": "modelo_vertical.ott"},
+			{"titulo": "Modelo Horizontal (LibreOffice Writer)", "url": "modelo_horizontal.ott"},
 		];
 		var imagens = [
 			new Arquivo("Cabeçalho Documento Vertical", "cabecalho-documento-vertical.emf"),
@@ -101,6 +101,8 @@
 			new Arquivo("SME Logotipo", "sme.svg"),
 			new Arquivo("Cabeçalho Documento Horizontal", "cabecalho-documento-horizontal.png"),
 			new Arquivo("Rodapé Documento Horizontal", "rodape-documento-horizontal.png"),
+			new Arquivo("Cabeçalho Documento Vertical", "cabecalho-documento-vertical.png"),
+			new Arquivo("Rodapé Documento Vertical", "rodape-documento-vertical.png"),
 			new Arquivo("Prefeitura Logotipo", "prefeitura.png")
 		];
 		var raiz = [
@@ -149,6 +151,9 @@
 						break;
 					case "odt":
 						img.setAttribute("src", "./img/icone-odt.png");
+						break;
+					case "ott":
+						img.setAttribute("src", "./img/icone-ott.png");
 						break;
 					case "svg":
 						img.setAttribute("src", "./img/icone-svg.png");
