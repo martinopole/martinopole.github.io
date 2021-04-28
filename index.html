@@ -94,7 +94,7 @@
 					linhas = this.responseText.split("\n");
 					for (var i = 1; i < linhas.length; i++) {
 						colunas = linhas[i].split(",");
-						contato = Contato()
+						contato = new Contato()
 						contato.nome = colunas[0]
 						contato.apelido = colunas[1]
 						contato.telefones = colunas[2].split(";")
