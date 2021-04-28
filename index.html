@@ -106,13 +106,14 @@
 			xhttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
 					linhas = this.responseText.split("\n");
-					for (var i = 1; i < linhas.length; i++) {
+					linhas.shift(); 
+					for (var i = 0; i < linhas.length; i++) {
 						colunas = linhas[i].split(",");
 						contato = new Contato()
 						contato.nome = colunas[1]
 						contato.apelido = colunas[2]
 						contato.telefones = colunas[3].split(";")
-						contatos.push(contato)
+						contatos.push(contato);
 					}
 				}
 			};
