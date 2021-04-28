@@ -74,6 +74,29 @@
 		}
 		</style>
 		<script>
+		var Contato = function(nome, apelido, telefones, setor1, funcao1, setor2, funcao2, setor3, funcao3) {
+			this.nome = nome;
+			this.apelido = apelido;
+			this.telefones = telefones;
+			this.setor1 = setor1;
+			this.funcao1 = funcao1;
+			this.setor2 = setor2;
+			this.funcao2 = funcao2;
+			this.setor3 = setor3
+			this.funcao3 = funcao3;
+		};
+		var contatos = [];
+		var urlContatos = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxOKCCvdrVs5T9Gr59jjd_4mUTy5e5rtF4qb3MmxGraVF9Ll_fkxcVoI60TJeYcz30w8YGsubArak4/pub?gid=26886476&single=true&output=csv";
+		function loadDoc(urlContatos) {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					console.log(this.responseText);
+				}
+			};
+			xhttp.open("GET", urlContatos, true);
+			xhttp.send();
+		}
 		function Pasta(titulo, conteudo) {
 			this.titulo = titulo;
 			this.conteudo = conteudo;
@@ -195,6 +218,8 @@
 				var pastaAtual = raiz[i];
 				icone.setAttribute("onClick", "novaJanela(" + i + ")");
 				desktop.appendChild(icone);
+
+				loadDoc(urlContatos);
 			}
 		}
 		</script>
