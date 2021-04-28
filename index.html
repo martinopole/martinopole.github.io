@@ -91,7 +91,15 @@
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
-					console.log(this.responseText);
+					linhas = this.responseText.split("\n");
+					for (var i = 1; i < linhas.length; i++) {
+						colunas = linhas[i].split(",");
+						contato = Contato()
+						contato.nome = colunas[0]
+						contato.apelido = colunas[1]
+						contato.telefones = colunas[2].split(";")
+						contatos.push(contato)
+					}
 				}
 			};
 			xhttp.open("GET", urlContatos, true);
@@ -218,7 +226,7 @@
 				var pastaAtual = raiz[i];
 				icone.setAttribute("onClick", "novaJanela(" + i + ")");
 				desktop.appendChild(icone);
-
+				
 				loadDoc(urlContatos);
 			}
 		}
