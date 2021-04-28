@@ -225,9 +225,12 @@
 			desktop.appendChild(janela);
 		}
 		function getStrTelefones(telefones) {
+			var pattern = new Regex("w[0-9]+");
+			var telefonesStr = "";
 			for (var i = 0; i < telefones.length; i++) {
-				
+				telefonesStr += telefones[i] + "<br>";
 			}
+			return telefonesStr;
 		}
 		function pesquisarContato() {
 			var qContato = document.getElementById("qcontato").value;
