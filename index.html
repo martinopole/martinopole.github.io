@@ -110,18 +110,22 @@
 			return telefonesStr;
 		}
 		var contatos = [];
+		function atualizarContatos(linhas) {
+			contatos = [];
+			linhas = linhas.split("\n");
+			linhas.shift(); 
+			for (var i = 0; i < linhas.length; i++) {
+				colunas = linhas[i].split(",");
+				contato = new Contato(colunas[1], colunas[2], getStrTelefones(colunas[3].split(";")), colunas[10], "", "", "", "", "", "");
+				contatos.push(contato);
+			}
+		}
 		var urlContatos = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxOKCCvdrVs5T9Gr59jjd_4mUTy5e5rtF4qb3MmxGraVF9Ll_fkxcVoI60TJeYcz30w8YGsubArak4/pub?gid=26886476&single=true&output=csv";
 		function loadDoc(urlContatos) {
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
-					linhas = this.responseText.split("\n");
-					linhas.shift(); 
-					for (var i = 0; i < linhas.length; i++) {
-						colunas = linhas[i].split(",");
-						contato = new Contato(colunas[1], colunas[2], getStrTelefones(colunas[3].split(";")), colunas[10], "", "", "", "", "", "");
-						contatos.push(contato);
-					}
+					atualizarContatos(this.responseText);
 				}
 			};
 			xhttp.open("GET", urlContatos, true);
