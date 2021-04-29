@@ -43,6 +43,7 @@
 		.conteudo {
 			background: white;
 			overflow: auto;
+			max-height: 100% - 50px;
 		}
 		.barraTitulo {
 			font-size: small;
@@ -88,7 +89,7 @@
 		}
 		</style>
 		<script>
-		var Contato = function(nome, apelido, telefones, setor1, funcao1, setor2, funcao2, setor3, funcao3) {
+		var Contato = function(nome, apelido, telefones, email, setor1, funcao1, setor2, funcao2, setor3, funcao3) {
 			this.nome = nome;
 			this.apelido = apelido;
 			this.telefones = telefones;
@@ -98,7 +99,16 @@
 			this.funcao2 = funcao2;
 			this.setor3 = setor3
 			this.funcao3 = funcao3;
+			this.email = email
 		};
+		function getStrTelefones(telefones) {
+			var pattern = new RegExp("w[0-9]+");
+			var telefonesStr = "";
+			for (var i = 0; i < telefones.length; i++) {
+				telefonesStr += telefones[i] + "<br>";
+			}
+			return telefonesStr;
+		}
 		var contatos = [];
 		var urlContatos = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxOKCCvdrVs5T9Gr59jjd_4mUTy5e5rtF4qb3MmxGraVF9Ll_fkxcVoI60TJeYcz30w8YGsubArak4/pub?gid=26886476&single=true&output=csv";
 		function loadDoc(urlContatos) {
@@ -109,10 +119,7 @@
 					linhas.shift(); 
 					for (var i = 0; i < linhas.length; i++) {
 						colunas = linhas[i].split(",");
-						contato = new Contato()
-						contato.nome = colunas[1]
-						contato.apelido = colunas[2]
-						contato.telefones = colunas[3].split(";")
+						contato = new Contato(colunas[1], colunas[2], getStrTelefones(colunas[3].split(";")), colunas[10], "", "", "", "", "", "");
 						contatos.push(contato);
 					}
 				}
@@ -223,14 +230,6 @@
 			}
 			janela.appendChild(conteudo);
 			desktop.appendChild(janela);
-		}
-		function getStrTelefones(telefones) {
-			var pattern = new RegExp("w[0-9]+");
-			var telefonesStr = "";
-			for (var i = 0; i < telefones.length; i++) {
-				telefonesStr += telefones[i] + "<br>";
-			}
-			return telefonesStr;
 		}
 		function pesquisarContato() {
 			var qContato = document.getElementById("qcontato").value;
