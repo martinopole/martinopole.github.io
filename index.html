@@ -90,6 +90,7 @@
 			padding: 5px;
 			vertical-align: top;
 			margin: 5px;
+			border-radius: 5px;
 		}
 		.setorFuncao {
 			font-size: 9pt;
@@ -153,7 +154,6 @@
 				contato = new Contato(colunas[1], colunas[2], getStrTelefones(colunas[3].split(";")), colunas[6], colunas[4], colunas[5]);
 				contatos.push(contato);
 			}
-			console.log(contatos);
 		}
 		var urlContatos = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxOKCCvdrVs5T9Gr59jjd_4mUTy5e5rtF4qb3MmxGraVF9Ll_fkxcVoI60TJeYcz30w8YGsubArak4/pub?gid=26886476&single=true&output=csv";
 		function loadDoc(urlContatos) {
@@ -282,15 +282,13 @@
 			if (contatosEncontrados.length > 0) {
 				divContatos.innerHTML = "";
 			} else {
-				divContatos.innerHTML = "Nenhum resultado encontrado.<br><small>Deseja adicionar um contato? Clique no link abaixo:<br><a href='https://forms.gle/oXTf4hSpiRPCm4x58' target='_blank'>https://forms.gle/oXTf4hSpiRPCm4x58</a></small>"
+				divContatos.innerHTML = "Nenhum resultado encontrado.";
 			}
 			for (var i = 0; i < contatosEncontrados.length; i++) {
-				var c = "<div class='contato'><div class='nome'>" + contatosEncontrados[i].nome + " (" + contatosEncontrados[i].apelido + ")</div><div class='setorFuncao'>" + contatosEncontrados[i].funcao + " - " + contatosEncontrados[i].setor + "</div><div class='telefones'>" + contatosEncontrados[i].telefones + "</div><div class='email'>" + contatosEncontrados[i].email + "</div>";
+				var c = "<div class='contato'><div class='nome'>" + contatosEncontrados[i].nome + " (" + contatosEncontrados[i].apelido + ")</div><div class='setorFuncao'>" + contatosEncontrados[i].funcao + " - "  + contatosEncontrados[i].setor + "</div><div class='telefones'>" + contatosEncontrados[i].telefones + "</div><div class='email'>" + contatosEncontrados[i].email + "</div>";
 				divContatos.innerHTML += c;
 			}
-			if (qContato == "") {
-				divContatos.innerHTML = "";
-			}
+			divContatos.innerHTML += "<div style='clear: both; font-size: 6pt; color: darkblue; font-weight: bold; margin: 10px;'><a href='https://forms.gle/oXTf4hSpiRPCm4x58' target='_blank' style='padding: 5px; background: white'>Clique aqui para se cadastrar!</a></div>";
 		}
 		window.onload = function() {
 			var desktop = document.getElementById("desktop");
@@ -325,7 +323,7 @@
 			<p>
 			<input type="text" id="qcontato" placeholder="Pesquisar contato..." onkeyup="pesquisarContato()")/>
 			</p>
-			<div id="contatos"></div>
+			<div id="contatos"><div style='clear: both; font-size: 6pt; color: darkblue; font-weight: bold; margin: 10px;'><a href='https://forms.gle/oXTf4hSpiRPCm4x58' target='_blank' style='padding: 5px; background: white'>Clique aqui para se cadastrar!</a></div></div>
 		</div>
 		<div id="desktop"></div>
 		<footer class="w3-container w3-center w3-padding-16">
