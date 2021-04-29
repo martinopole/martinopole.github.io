@@ -43,7 +43,7 @@
 		.conteudo {
 			background: white;
 			overflow: auto;
-			max-height: 100% - 50px;
+			max-height: 300px;
 		}
 		.barraTitulo {
 			font-size: small;
@@ -73,16 +73,33 @@
 		.botaoFechar:hover {
 			background: #ff0066;
 		}
-		#contatos {
+		#boxContatos {
 			text-align: center;
 			margin: 10px;
 		}
 		#qcontato {
 			display: inline-block;
 		}
-		#tabelaContatos {
+		.contato {
 			display: inline-block;
+			width: 300px;
+			border: solid 1px gray;
 			font-size: 10pt;
+			text-align: left;
+			background: white;
+			padding: 5px;
+		}
+		.setorFuncao {
+			font-size: 9pt;
+			
+		}
+		.nome {
+			font-size: 11pt;
+			font-weight: bold;
+			text-align: left;
+		}
+		.email {
+			font-size: 9pt;
 		}
 		a {
 			text-decoration: none;
@@ -92,16 +109,12 @@
 		}
 		</style>
 		<script>
-		var Contato = function(nome, apelido, telefones, email, setor1, funcao1, setor2, funcao2, setor3, funcao3) {
+		var Contato = function(nome, apelido, telefones, email, setor, funcao) {
 			this.nome = nome;
 			this.apelido = apelido;
 			this.telefones = telefones;
-			this.setor1 = setor1;
-			this.funcao1 = funcao1;
-			this.setor2 = setor2;
-			this.funcao2 = funcao2;
-			this.setor3 = setor3
-			this.funcao3 = funcao3;
+			this.setor = setor;
+			this.funcao = funcao;
 			this.email = email
 		};
 		function abrirWhatsapp(numero) {
@@ -135,7 +148,7 @@
 			linhas.shift(); 
 			for (var i = 0; i < linhas.length; i++) {
 				colunas = linhas[i].split(",");
-				contato = new Contato(colunas[1], colunas[2], getStrTelefones(colunas[3].split(";")), colunas[10], "", "", "", "", "", "");
+				contato = new Contato(colunas[1], colunas[2], getStrTelefones(colunas[3].split(";")), colunas[6], colunas[4], colunas[5]);
 				contatos.push(contato);
 			}
 			console.log(contatos);
@@ -257,7 +270,7 @@
 		}
 		function pesquisarContato() {
 			var qContato = document.getElementById("qcontato").value;
-			var tabelaContatos = document.getElementById("tabelaContatos");
+			var divContatos = document.getElementById("contatos");
 			var contatosEncontrados = [];
 			for (var i = 0; i < contatos.length; i++) {
 				if (contatos[i].nome.toUpperCase().indexOf(qContato.toUpperCase()) != -1) {
@@ -265,16 +278,16 @@
 				}
 			}
 			if (contatosEncontrados.length > 0) {
-				tabelaContatos.innerHTML = "<tr><th>Nome</th><th>Apelido</th><th>Telefones</th></tr>";
+				divContatos.innerHTML = "";
 			} else {
-				tabelaContatos.innerHTML = "<tr><td>Nenhum resultado encontrado.<br><small>Deseja adicionar um contato? Clique no link abaixo:<br><a href='https://forms.gle/oXTf4hSpiRPCm4x58' target='_blank'>https://forms.gle/oXTf4hSpiRPCm4x58</a></small></td></tr>"
+				divContatos.innerHTML = "Nenhum resultado encontrado.<br><small>Deseja adicionar um contato? Clique no link abaixo:<br><a href='https://forms.gle/oXTf4hSpiRPCm4x58' target='_blank'>https://forms.gle/oXTf4hSpiRPCm4x58</a></small>"
 			}
 			for (var i = 0; i < contatosEncontrados.length; i++) {
-				var tr = "<tr><td>" + contatosEncontrados[i].nome + "</td><td>" + contatosEncontrados[i].apelido + "</td><td>" + contatosEncontrados[i].telefones + "</td></tr>";
-				tabelaContatos.innerHTML += tr;
+				var c = "<div class='contato'><div class='nome'>" + contatosEncontrados[i].nome + " (" + contatosEncontrados[i].apelido + ")</div><div class='setorFuncao'>" + contatosEncontrados[i].setor + " - " + contatosEncontrados[i].funcao + "</div><div class='telefones'>" + contatosEncontrados[i].telefones + "</div><div class='email'>" + contatosEncontrados[i].email + "</div>";
+				divContatos.innerHTML += c;
 			}
 			if (qContato == "") {
-				tabelaContatos.innerHTML = "";
+				divContatos.innerHTML = "";
 			}
 		}
 		window.onload = function() {
@@ -306,11 +319,11 @@
 				<img src="./img/sme.png" height="40" width="175"/>
 			</h1>
 		</header>
-		<div id="contatos">
+		<div id="boxContatos">
 			<p>
 			<input type="text" id="qcontato" placeholder="Pesquisar contato..." onKeyup="pesquisarContato()")/>
 			</p>
-			<table id="tabelaContatos"></table>
+			<div id="contatos"></div>
 		</div>
 		<div id="desktop"></div>
 		<footer class="w3-container w3-center w3-padding-16">
