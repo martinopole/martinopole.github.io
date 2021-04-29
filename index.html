@@ -88,6 +88,8 @@
 			text-align: left;
 			background: white;
 			padding: 5px;
+			vertical-align: top;
+			margin: 5px;
 		}
 		.setorFuncao {
 			font-size: 9pt;
@@ -273,7 +275,7 @@
 			var divContatos = document.getElementById("contatos");
 			var contatosEncontrados = [];
 			for (var i = 0; i < contatos.length; i++) {
-				if (contatos[i].nome.toUpperCase().indexOf(qContato.toUpperCase()) != -1) {
+				if (contatos[i].nome.toUpperCase().indexOf(qContato.toUpperCase()) != -1 || contatos[i].apelido.toUpperCase().indexOf(qContato.toUpperCase()) != -1) {
 					contatosEncontrados.push(contatos[i]);
 				}
 			}
@@ -283,7 +285,7 @@
 				divContatos.innerHTML = "Nenhum resultado encontrado.<br><small>Deseja adicionar um contato? Clique no link abaixo:<br><a href='https://forms.gle/oXTf4hSpiRPCm4x58' target='_blank'>https://forms.gle/oXTf4hSpiRPCm4x58</a></small>"
 			}
 			for (var i = 0; i < contatosEncontrados.length; i++) {
-				var c = "<div class='contato'><div class='nome'>" + contatosEncontrados[i].nome + " (" + contatosEncontrados[i].apelido + ")</div><div class='setorFuncao'>" + contatosEncontrados[i].setor + " - " + contatosEncontrados[i].funcao + "</div><div class='telefones'>" + contatosEncontrados[i].telefones + "</div><div class='email'>" + contatosEncontrados[i].email + "</div>";
+				var c = "<div class='contato'><div class='nome'>" + contatosEncontrados[i].nome + " (" + contatosEncontrados[i].apelido + ")</div><div class='setorFuncao'>" + contatosEncontrados[i].funcao + " - " + contatosEncontrados[i].setor + "</div><div class='telefones'>" + contatosEncontrados[i].telefones + "</div><div class='email'>" + contatosEncontrados[i].email + "</div>";
 				divContatos.innerHTML += c;
 			}
 			if (qContato == "") {
@@ -321,7 +323,7 @@
 		</header>
 		<div id="boxContatos">
 			<p>
-			<input type="text" id="qcontato" placeholder="Pesquisar contato..." onKeyup="pesquisarContato()")/>
+			<input type="text" id="qcontato" placeholder="Pesquisar contato..." onkeyup="pesquisarContato()")/>
 			</p>
 			<div id="contatos"></div>
 		</div>
