@@ -82,7 +82,10 @@
 		}
 		#tabelaContatos {
 			display: inline-block;
-			font-size: 11pt;
+			font-size: 10pt;
+		}
+		a {
+			text-decoration: none;
 		}
 		footer {
 			font-size: 8pt;
@@ -101,11 +104,27 @@
 			this.funcao3 = funcao3;
 			this.email = email
 		};
+		function abrirWhatsapp(numero) {
+			var link = "https://api.whatsapp.com/send?phone=55" + numero;
+			var a = document.createElement("a");
+			a.setAttribute("href", link);
+			a.setAttribute("target", "_blank");
+			a.click();
+		}
 		function getStrTelefones(telefones) {
-			var pattern = new RegExp("w[0-9]+");
+			var patternWhatsApp = new RegExp("w([0-9]{2})([0-9]{1})([0-9]{4})([0-9]{4})");
+			var pattern = new RegExp("([0-9]{2})([0-9]{1})([0-9]{4})([0-9]{4})");
 			var telefonesStr = "";
 			for (var i = 0; i < telefones.length; i++) {
-				telefonesStr += telefones[i] + "<br>";
+				var match = patternWhatsApp.exec(telefones[i]);
+				if (match) {
+					telefonesStr += "<a href=\"https://api.whatsapp.com/send?phone=55" + match[1] + match[2] + match[3] + match[4] + "\" target=\"_blank\">(" + match[1] + ") " + match[2] + " " + match[3] + " " + match[4] + "</a> <img src=\"./img/whatsapp.png\" height=\"10\" width=\"10\"/><br/>";
+				} else {
+					var match2 = pattern.exec(telefones[i]);
+					if (match2) {
+						telefonesStr += "(" + match2[1] + ") " + match2[2] + " " + match2[3] + " " + match2[4] + "<br/>";
+					}
+				}
 			}
 			return telefonesStr;
 		}
@@ -119,6 +138,7 @@
 				contato = new Contato(colunas[1], colunas[2], getStrTelefones(colunas[3].split(";")), colunas[10], "", "", "", "", "", "");
 				contatos.push(contato);
 			}
+			console.log(contatos);
 		}
 		var urlContatos = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxOKCCvdrVs5T9Gr59jjd_4mUTy5e5rtF4qb3MmxGraVF9Ll_fkxcVoI60TJeYcz30w8YGsubArak4/pub?gid=26886476&single=true&output=csv";
 		function loadDoc(urlContatos) {
@@ -245,12 +265,12 @@
 				}
 			}
 			if (contatosEncontrados.length > 0) {
-				tabelaContatos.innerHTML = "<tr><th>Nome</th><th><Conhecido como</th><th>Telefones</th></tr>";
+				tabelaContatos.innerHTML = "<tr><th>Nome</th><th>Apelido</th><th>Telefones</th></tr>";
 			} else {
 				tabelaContatos.innerHTML = "<tr><td>Nenhum resultado encontrado.<br><small>Deseja adicionar um contato? Clique no link abaixo:<br><a href='https://forms.gle/oXTf4hSpiRPCm4x58' target='_blank'>https://forms.gle/oXTf4hSpiRPCm4x58</a></small></td></tr>"
 			}
 			for (var i = 0; i < contatosEncontrados.length; i++) {
-				var tr = "<tr><td>" + contatosEncontrados[i].nome + "</td><td>" + contatosEncontrados[i].apelido + "</td><td>" + getStrTelefones(contatosEncontrados[i].telefones) + "</td></tr>";
+				var tr = "<tr><td>" + contatosEncontrados[i].nome + "</td><td>" + contatosEncontrados[i].apelido + "</td><td>" + contatosEncontrados[i].telefones + "</td></tr>";
 				tabelaContatos.innerHTML += tr;
 			}
 			if (qContato == "") {
