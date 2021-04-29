@@ -110,15 +110,19 @@
 		footer {
 			font-size: 8pt;
 		}
+		.telefones, .email {
+			margin-top: 2px;
+		}
 		</style>
 		<script>
-		var Contato = function(nome, apelido, telefones, email, setor, funcao) {
+		var Contato = function(nome, apelido, nascimento, telefones, email, setor, funcao) {
 			this.nome = nome;
 			this.apelido = apelido;
 			this.telefones = telefones;
 			this.setor = setor;
 			this.funcao = funcao;
 			this.email = email
+			this.nascimento = nascimento
 		};
 		function abrirWhatsapp(numero) {
 			var link = "https://api.whatsapp.com/send?phone=55" + numero;
@@ -151,7 +155,7 @@
 			linhas.shift(); 
 			for (var i = 0; i < linhas.length; i++) {
 				colunas = linhas[i].split(",");
-				contato = new Contato(colunas[1], colunas[2], getStrTelefones(colunas[3].split(";")), colunas[6], colunas[4], colunas[5]);
+				contato = new Contato(colunas[1], colunas[2], colunas[7], getStrTelefones(colunas[3].split(";")), colunas[6], colunas[4], colunas[5]);
 				contatos.push(contato);
 			}
 		}
@@ -284,9 +288,11 @@
 			} else {
 				divContatos.innerHTML = "Nenhum resultado encontrado.";
 			}
-			for (var i = 0; i < contatosEncontrados.length; i++) {
-				var c = "<div class='contato'><div class='nome'>" + contatosEncontrados[i].nome + " (" + contatosEncontrados[i].apelido + ")</div><div class='setorFuncao'>" + contatosEncontrados[i].funcao + " - "  + contatosEncontrados[i].setor + "</div><div class='telefones'>" + contatosEncontrados[i].telefones + "</div><div class='email'>" + contatosEncontrados[i].email + "</div>";
-				divContatos.innerHTML += c;
+			if (qContato.length > 0) {
+				for (var i = 0; i < contatosEncontrados.length; i++) {
+					var c = "<div class='contato'><div class='nome'>" + contatosEncontrados[i].nome + " (" + contatosEncontrados[i].apelido + ")</div><div class='setorFuncao'>" + contatosEncontrados[i].funcao + " - "  + contatosEncontrados[i].setor + "</div><div class='telefones'>" + contatosEncontrados[i].telefones + "</div><div class='email'><a href='mailto:" + contatosEncontrados[i].email + "'>" + contatosEncontrados[i].email + "</a></div>";
+					divContatos.innerHTML += c;
+				}
 			}
 			divContatos.innerHTML += "<div style='clear: both; font-size: 6pt; color: darkblue; font-weight: bold; margin: 10px;'><a href='https://forms.gle/oXTf4hSpiRPCm4x58' target='_blank' style='padding: 5px; background: white'>Clique aqui para se cadastrar!</a></div>";
 		}
