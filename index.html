@@ -96,7 +96,7 @@
 			font-size: 9pt;
 			
 		}
-		.nome {
+		.contato .nome {
 			font-size: 11pt;
 			font-weight: bold;
 			text-align: left;
@@ -113,8 +113,31 @@
 		.telefones, .email {
 			margin-top: 2px;
 		}
+		#aniversariantes {
+			font-size: 10pt;
+		}
+		#aniversariantes #tituloAniversariantes {
+			font-size: 8pt;
+			color: darkpurple;
+		}
+		.aniversariante {
+			display: inline-block;
+			text-align: center;
+			width: 300px;
+		}
+		.aniversariante .nome {
+			display: inline-block;
+			font-size: 10pt;
+		}
+		.aniversariante .funcao {
+			font-size: 8pt;
+		}
+		.aniversariante .setor {
+			font-size: 6pt;
+		}
 		</style>
 		<script>
+		var meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 		var Contato = function(nome, apelido, nascimento, telefones, email, setor, funcao) {
 			this.nome = nome;
 			this.apelido = apelido;
@@ -149,6 +172,18 @@
 			return telefonesStr;
 		}
 		var contatos = [];
+		function getAniversariantesDoMes() {
+			var aniversariantes = [];
+			var hoje = new Date();
+			for (var i = 0; i < contatos.length; i++) {
+				var diaMesAno = contatos[i].nascimento.split("/");
+				var mesNascimento = parseInt(diaMesAno[1]);
+				if (mesNascimento == (hoje.getMonth() + 1)) {
+					aniversariantes.push(contatos[i]);
+				}				
+			}
+			return aniversariantes;
+		}
 		function atualizarContatos(linhas) {
 			contatos = [];
 			linhas = linhas.split("\n");
@@ -158,6 +193,7 @@
 				contato = new Contato(colunas[1], colunas[2], colunas[7], getStrTelefones(colunas[3].split(";")), colunas[6], colunas[4], colunas[5]);
 				contatos.push(contato);
 			}
+			pesquisarContato();
 		}
 		var urlContatos = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQxOKCCvdrVs5T9Gr59jjd_4mUTy5e5rtF4qb3MmxGraVF9Ll_fkxcVoI60TJeYcz30w8YGsubArak4/pub?gid=26886476&single=true&output=csv";
 		function loadDoc(urlContatos) {
@@ -293,6 +329,21 @@
 					var c = "<div class='contato'><div class='nome'>" + contatosEncontrados[i].nome + " (" + contatosEncontrados[i].apelido + ")</div><div class='setorFuncao'>" + contatosEncontrados[i].funcao + " - "  + contatosEncontrados[i].setor + "</div><div class='telefones'>" + contatosEncontrados[i].telefones + "</div><div class='email'><a href='mailto:" + contatosEncontrados[i].email + "'>" + contatosEncontrados[i].email + "</a></div>";
 					divContatos.innerHTML += c;
 				}
+			} else {
+				var data = new Date();
+				var indiceMes = data.getMonth();
+				//divContatos.innerHTML = "<p style='font-size: 11pt'>" + meses[indiceMes] + ", " + data.getFullYear(); + "</p>";
+				divContatos.innerHTML = "";
+				var aniversariantes = getAniversariantesDoMes();
+				if (aniversariantes.length > 0) {
+					divContatos.innerHTML += "<div id='aniversariantes'><b><div id='tituloAniversariantes'>Aniversariantes de " + meses[indiceMes].toLowerCase() + "</b></div>";
+					for (var i = 0; i < aniversariantes.length; i++) {
+						var diaMesAno = aniversariantes[i].nascimento.split("/");
+						var dia = diaMesAno[0];
+						divContatos.innerHTML += "<div class='aniversariante'><div class='nome'>" + aniversariantes[i].apelido + " <small>(Dia " + dia + ")</small></div><div class='funcao'>" + aniversariantes[i].funcao + "</div><div class='setor'>" + aniversariantes[i].setor + "</div></div>";
+					}
+					divContatos.innerHTML += "</div>";
+				}
 			}
 			divContatos.innerHTML += "<div style='clear: both; font-size: 6pt; color: darkblue; font-weight: bold; margin: 10px;'><a href='https://forms.gle/oXTf4hSpiRPCm4x58' target='_blank' style='padding: 5px; background: white'>Clique aqui para se cadastrar!</a></div>";
 		}
@@ -315,6 +366,7 @@
 				desktop.appendChild(icone);
 				
 				loadDoc(urlContatos);
+				pesquisarContato();
 			}
 		}
 		</script>
@@ -329,7 +381,7 @@
 			<p>
 			<input type="text" id="qcontato" placeholder="Pesquisar contato..." onkeyup="pesquisarContato()")/>
 			</p>
-			<div id="contatos"><div style='clear: both; font-size: 6pt; color: darkblue; font-weight: bold; margin: 10px;'><a href='https://forms.gle/oXTf4hSpiRPCm4x58' target='_blank' style='padding: 5px; background: white'>Clique aqui para se cadastrar!</a></div></div>
+			<div id="contatos"></div>
 		</div>
 		<div id="desktop"></div>
 		<footer class="w3-container w3-center w3-padding-16">
