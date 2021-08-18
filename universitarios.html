@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+    <script>
+    var universitarios = [];
+    var Universitario = function(data, email, nome, rg, cpf, whatsapp, contato, rua, numero, bairro, curso, instituicao, turno, local, semestre) {
+        this.data = data;
+        this.email = email;
+        this.nome = nome;
+        this.rg = rg;
+        this.cpf = cpf;
+        this.whatsapp = whatsapp;
+        this.contato = contato
+        this.rua = rua
+        this.numero = numero
+        this.bairro = bairro
+        this.curso = curso
+        this.instituicao = instituicao
+        this.turno = turno
+        this.local = local
+        this.semestre = semestre        
+    }
+    function pesquisar() {
+        var q = document.getElementById("q").value;
+        var tabela = document.getElementById("universitarios");
+        for (var i = 0; i < univesitarios.length; i++) {
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            td.innerHTML = universitarios[i].nome;
+            tr.append(td);
+            tabela.appendChild(tr);
+        }
+    }
+    function atualizarUniversitarios(linhas) {
+	    linhas = linhas.split("\n");
+	    linhas.shift(); 
+	    for (var i = 0; i < linhas.length; i++) {
+		    c = linhas[i].split(",");
+		    universitario = new Universitario(c[0], c[1], c[2], c[3], c[4], c[5], c[6], c[7], c[8], c[9], c[10], c[11], c[12], c[13], c[14]);
+		    universitarios.push(universitario);
+	    }
+	    pesquisar();
+    }
+    var urlContatos = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR_FHtZQzu3o9bveGWYp34w33NxZ8iw8VJmSQ0H6b_GX9udAi03_ybB54GWBErjy1A_MGF4tgT1i_8R/pub?output=csv";
+    function loadDoc(urlContatos) {
+	    var xhttp = new XMLHttpRequest();
+	    xhttp.onreadystatechange = function() {
+		    if (this.readyState == 4 && this.status == 200) {
+			    atualizarUniversitarios(this.responseText);
+		    }
+	    };
+	    xhttp.open("GET", urlContatos, true);
+	    xhttp.send();
+    }
+    loadDoc();
+    </script>
+    </head>
+    <body>
+        <center>
+        <h1>Universitários</h1>
+        <input type="text" id="q" onkeyup="pesquisar()"/>
+        <table id="universitarios"></table>
+        </center>
+    </body>
+</html>
