@@ -1,65 +1,212 @@
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
-    <script>
-    var universitarios = [];
-    var Universitario = function(data, email, nome, rg, cpf, whatsapp, contato, rua, numero, bairro, curso, instituicao, turno, local, semestre) {
-        this.data = data;
-        this.email = email;
-        this.nome = nome;
-        this.rg = rg;
-        this.cpf = cpf;
-        this.whatsapp = whatsapp;
-        this.contato = contato
-        this.rua = rua
-        this.numero = numero
-        this.bairro = bairro
-        this.curso = curso
-        this.instituicao = instituicao
-        this.turno = turno
-        this.local = local
-        this.semestre = semestre        
-    }
-    function pesquisar() {
-        var q = document.getElementById("q").value;
-        var tabela = document.getElementById("universitarios");
-        for (var i = 0; i < universitarios.length; i++) {
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            td.innerHTML = universitarios[i].nome;
-            tr.append(td);
-            tabela.appendChild(tr);
-        }
-    }
-    function atualizarUniversitarios(linhas) {
-	    linhas = linhas.split("\n");
-	    linhas.shift(); 
-	    for (var i = 0; i < linhas.length; i++) {
-		    c = linhas[i].split(",");
-		    universitario = new Universitario(c[0], c[1], c[2], c[3], c[4], c[5], c[6], c[7], c[8], c[9], c[10], c[11], c[12], c[13], c[14]);
-		    universitarios.push(universitario);
-	    }
-	    pesquisar();
-    }
-    var urlContatos = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR_FHtZQzu3o9bveGWYp34w33NxZ8iw8VJmSQ0H6b_GX9udAi03_ybB54GWBErjy1A_MGF4tgT1i_8R/pub?output=csv";
-    function loadDoc(urlContatos) {
-	    var xhttp = new XMLHttpRequest();
-	    xhttp.onreadystatechange = function() {
-		    if (this.readyState == 4 && this.status == 200) {
-			    atualizarUniversitarios(this.responseText);
-		    }
-	    };
-	    xhttp.open("GET", urlContatos, true);
-	    xhttp.send();
-    }
-    loadDoc();
-    </script>
+		<meta charset="utf-8"/>
+		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">		
+		<meta name="viewport" content="width=device-width"/>
+		<style>
+		#universitarios {
+			border-collapse: collapse;
+			font-size: 10pt;
+		}
+		@media {
+			#q {
+				width: 125px;
+			}
+		}
+		</style>
+		<script>
+		var universitarios = [];
+		var Universitario = function(data, email, nome, rg, cpf, whatsapp, contato, rua, numero, bairro, curso, instituicao, turno, local, semestre, inicio, dias) {
+			this.data = data;
+			this.email = email;
+			this.nome = nome;
+			this.rg = rg;
+			this.cpf = cpf;
+			this.whatsapp = whatsapp;
+			this.contato = contato
+			this.rua = rua
+			this.numero = numero
+			this.bairro = bairro
+			this.curso = curso
+			this.instituicao = instituicao
+			this.turno = turno
+			this.local = local
+			this.semestre = semestre        
+			this.inicio = inicio;
+			this.dias = dias;
+		}
+		function abrir(i) {
+			document.getElementById("nome").innerHTML = universitarios[i].nome;
+			document.getElementById("instituicao").innerHTML = universitarios[i].instituicao;
+			document.getElementById("curso").innerHTML = universitarios[i].curso;
+			document.getElementById("turno").innerHTML = universitarios[i].turno;
+			document.getElementById("local").innerHTML = universitarios[i].local;
+			document.getElementById("whastapp").innerHTML = "<a href=\"https://api.whatsapp.com/send?phone=55" + universitarios[i].whatsapp + "\">" + universitarios[i].whatsapp + "</a>";
+			document.getElementById("contato_extra").innerHTML = universitarios[i].contato;
+			document.getElementById("dias").innerHTML = universitarios[i].dias;
+			document.getElementById("endereco").innerHTML = universitarios[i].rua + ", " + universitarios[i].numero + ' - ' + universitarios[i].bairro;
+			document.getElementById("data").innerHTML = universitarios[i].data;
+			document.getElementById("form").style.display = "block";
+		}
+		function vaiHoje(i) {
+			var dia = document.getElementById("dia").value;
+			if (dia == "") {
+				return true;
+			}
+			var dias_temp = universitarios[i].dias.split(";");
+			var dias = [];
+			for (var j = 0; j < dias_temp.length; j++) {
+				dias.push(dias_temp[j].trim());
+			}
+			for (var j = 0; j < dias.length; j++) {
+				if (dias[j] == dia) {
+					return true;
+				}
+			}
+			return false;
+		}
+		function pesquisar() {
+		  var q = document.getElementById("q").value;
+		  var tabela = document.getElementById("universitarios");
+		  tabela.innerHTML = "";
+		  var c = 0;
+		  for (var i = 0; i < universitarios.length; i++) {
+				if (universitarios[i].nome.toUpperCase().indexOf(q.toUpperCase()) != -1 && vaiHoje(i)) {
+					c++;
+					var tr = document.createElement("tr");
+					var td = document.createElement("td");
+					td.innerHTML = '<span onclick="abrir(' + i + ')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16"> <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg></span>';
+					tr.appendChild(td);
+					td = document.createElement("td");
+					td.innerHTML = universitarios[i].nome.trim().toUpperCase();
+					tr.appendChild(td);
+					//td = document.createElement("td");
+					//td.innerHTML = "<a href=\"https://api.whatsapp.com/send?phone=55" + universitarios[i].whatsapp + "\" target=\"_blank\" class=\"w3-button\">" + '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-whatsapp" viewBox="0 0 16 16">  <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg></a> ' + universitarios[i].whatsapp;
+					//tr.appendChild(td);
+					tabela.appendChild(tr);
+				}
+			}
+			document.getElementById("total").innerHTML = c;
+		}
+		
+		function atualizarUniversitarios(linhas) {
+			linhas = linhas.split("\n");
+			linhas.shift(); 
+			for (var i = 0; i < linhas.length; i++) {
+				var linha = linhas[i];
+				/*linha = linha.replaceAll(/\".*\"/gi, function(x) {
+					return x.replaceAll(",", ";");
+				});*/
+				var novaLinha = '';
+				var troca = false;
+				for (var j = 0; j < linha.length; j++) {
+					var c = linha[j];
+					if (troca == true) {
+						if (c == ',') {
+							novaLinha += ';';
+						} else {
+							if (c != '"') {
+								novaLinha += c;
+							}
+						}
+					} else {
+						if (c != '"') {
+							novaLinha += c;
+						}
+					}
+					if (c == '"') {
+						if (troca == false) {
+							troca = true;
+						} else {
+							troca = false;
+						}
+					}
+				}
+				//console.log(linha);
+				//console.log(novaLinha);
+				c = novaLinha.split(/\"?,\"?/);
+				universitario = new Universitario(c[0], c[1], c[2], c[3], c[4], c[5], c[6], c[7], c[8], c[9], c[10], c[11], c[12], c[13], c[14], c[15], c[16]);
+				universitarios.push(universitario);
+			}
+			universitarios.sort(function(a, b) { return a.nome > b.nome});
+			document.getElementById("total").innerHTML = universitarios.length;
+			pesquisar();
+		}
+		var url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR_FHtZQzu3o9bveGWYp34w33NxZ8iw8VJmSQ0H6b_GX9udAi03_ybB54GWBErjy1A_MGF4tgT1i_8R/pub?output=csv";
+		//var url = "http://localhost/dados.csv";
+		function loadDoc(urlContatos) {
+		 var xhttp = new XMLHttpRequest();
+		 xhttp.onreadystatechange = function() {
+			 if (this.readyState == 4 && this.status == 200) {
+				 atualizarUniversitarios(this.responseText);
+			 }
+		 };
+		 xhttp.open("GET", url, true);
+		 xhttp.send();
+		}
+		loadDoc();
+		</script>
     </head>
     <body>
-        <center>
-        <h1>Universitários</h1>
-        <input type="text" id="q" onkeyup="pesquisar()"/>
-        <table id="universitarios"></table>
-        </center>
+			<div class="w3-container w3-teal w3-center">
+				<h1 class=""><img src="./simbolo_sme.svg" height="50"/> Universitários</h1>
+			</div>
+			<div class="w3-bar">
+				<a class="w3-bar-item w3-button" href="https://forms.gle/WLHP2dDByH5Hh1As9" target="_blank">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ui-checks" viewBox="0 0 16 16">
+					  <path d="M7 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1zM2 1a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2zm0 8a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H2zm.854-3.646a.5.5 0 0 1-.708 0l-1-1a.5.5 0 1 1 .708-.708l.646.647 1.646-1.647a.5.5 0 1 1 .708.708l-2 2zm0 8a.5.5 0 0 1-.708 0l-1-1a.5.5 0 0 1 .708-.708l.646.647 1.646-1.647a.5.5 0 0 1 .708.708l-2 2zM7 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1zm0-5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+					</svg>
+				</a>
+				<!--<a href="#" class="w3-bar-item w3-button">Gerar Cartões</a>-->
+				<input class="w3-input w3-bar-item" type="text" id="q" onkeyup="pesquisar()" autocomplete="off"/>
+				<select id="dia" class="w3-bar-item" onchange="pesquisar()">
+					<option value="">Todos</option>
+					<option value="Segunda">Segunda</option>
+					<option value="Terça">Terça</option>
+					<option value="Quarta">Quarta</option>
+					<option value="Quinta">Quinta</option>
+					<option value="Sexta">Sexta</option>
+				</select>
+				<span class="w3-bar-item">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16"> <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+					<span id="total"></span>
+				</span>
+			</div>
+			<div class="w3-container">
+				<table class="w3-table-all w3-container" id="universitarios"><tr><td>Carregando... aguarde.</td><tr></table>
+			</div>
+			
+			<div id="form" class="w3-modal">
+				<div class="w3-modal-content">
+					<span onclick="document.getElementById('form').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+					<div class="w3-container">
+						<h4><b id="nome"></b></h4>
+						<p>
+							<b>Instituição: </b><span id="instituicao"></span><br>
+							<b>Curso: </b><span id="curso"></span><br>
+							<b>Turno: </b><span id="turno"></span><br>
+							<b>Local/Endereço: </b><span id="local"></span>
+						</p>
+						<p>
+							<b>WhatsApp: </b><span id="whastapp"></span><br>
+							<b>Contato Extra: </b><span id="contato_extra"></span><br>
+						</p>
+						<p>
+							<b>Endereço: </b><span id="endereco"></span>
+						</p>
+						<p>
+							<b>Dias da Semana: </b><span id="dias"></span>
+						</p>
+						<p>
+							<small style="text-align: right">Cadastro realizado em <span id="data"></span></small>
+						</p>
+					</div>
+				</div>
+			</div>
+			<p class="w3-tiny w3-center">
+				Desenvolvido por Milton Rodrigues - iomltn@gmail.com
+			</p>
     </body>
 </html>
