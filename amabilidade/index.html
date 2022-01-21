@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width,initial-scale=1"/>
+		<style>
+		body {
+			font-family: 'Arial';
+			text-align: center;
+			background: #fff7e6;
+		}
+		#situacao {
+			background: #660066;
+			color: white;
+			padding: 10px;
+			border-radius: 10px;
+		}
+		#opcoes {
+			font-weight: bold;
+			font-size: 14pt;
+			text-align: center;
+			background: #ffcc66;
+		}
+		.opcao {
+			margin: 5px;
+			display: block;
+			clear: both;
+		}
+		.escolhida {
+			background-color: black;
+			color: white;
+		}
+		#resultado {
+			background: #ff0066;
+			color: white;
+			font-weight: bold;
+			font-size: 16pt;
+			border-radius: 10px;
+			margin: 5px;
+			padding: 10px;
+		}
+		</style>
+		<script>
+		var indice_situacao = 0;
+		var opcoes = ["Ainda preciso avançar.","Já avancei alguns passos.", "Estou no meio do caminho.", "Estou quase lá.", "Esse sou eu!"];
+		var escolhas = [0,0,0,0,0,0,0,0,0,0,0,0];
+		var situacoes = ["Trato as pessoas sempre como gostaria de ser tratado.",
+			"Parto sempre do princípio que as pessoas são legais. Não começo achando que a pessoa é \"isso ou aquilo\" não... Acho que vale um voto inicial de confiança.",
+			"Eu tenho vocação pro bom humor, sou alto astral, já começo o dia rindo!.",
+			"Sou positivo, o que tenho para fazer no dia, já vejo com objetividade, não fico rodeando, adiando, deixando pra depois não.",
+			"Busco sempre aproximar os grupos, as equipes, os amigos. Não sou de panelinhas.",
+			"Quando vejo uma pessoa mais afastada, deslocada, tímida, tento puxar conversa, trazer pro grupo.",
+			"Se alguém está com problemas e eu percebo, tento dar uma força.",
+			"Sempre tento me engajar em campanhas solidárias quando elas são apresentadas, pois entendo que existem outras pessoas em maior dificldade do que eu.",
+			"Se tem um trabalho em equipe para fazer, faço minha parte e ajudo para que todos cumpram suas partes também.",
+			"Tento ser cuidadoso com o que digo. Não sou grosseiro com palavras.",
+			"Sempre que posso falo dos meus sentimentos para as pessoas de quem gosto: que eu me importo, que elas são importantes pra mim, ou mesmo se estou triste com alguma situação.",
+			"Eu peço desculpas quando percebo que errei."];
+
+		function mostrar() {
+			document.getElementById("situacao").innerHTML = situacoes[indice_situacao];
+			var btn_anterior = document.getElementById("anterior");
+			var btn_proxima = document.getElementById("proxima");
+			var btn_resultado = document.getElementById("ver_resultado");
+			document.getElementById("opcoes").value = escolhas[indice_situacao];
+			document.getElementById("opcoes").onchange = function() {escolhas[indice_situacao] = document.getElementById("opcoes").value};
+			if (indice_situacao > 0) {
+				btn_anterior.onclick = function() { indice_situacao--; mostrar() };
+				btn_anterior.style.display = "";
+			} else {
+				btn_anterior.style.display = "none";
+				btn_anterior.onclick = function() {};
+			}
+			if (indice_situacao < situacoes.length - 1) {
+				btn_proxima.onclick = function() { indice_situacao++; mostrar(); };
+				btn_proxima.style.display = "";
+				btn_resultado.style.display = "none";
+			} else {
+				btn_proxima.style.display = "none";
+				btn_proxima.onclick = function() {};
+				btn_resultado.style.display = "";
+			}
+		}
+		function salvarOpcao(situacao) {
+			var o = document.getElementById("opcoes");
+			situacao.opcao = o.value;
+		}
+		function verificaOpcao(situacao) {
+			var o = document.getElementById("opcoes").getElementsByTagName("option");
+			for (var i = 0; i < o.length; i++) {
+				if (o[i].getAttribute("value") == situacao.valor) {
+					document.getElementById("opcoes").value = situacao.valor;
+				}
+			}
+		}
+		function resultado() {
+			var soma = 0;
+			var tudo_certo = true;
+			var situacao;
+			for (var i = 0; i < escolhas.length; i++) {
+				if (escolhas[i] == 0) {
+					tudo_certo = false;
+					break;
+				}
+				soma += parseInt(escolhas);
+			}
+			if (tudo_certo) {
+				if (soma >= 12 && soma <= 24) {
+					situacao = "Observa-se em você uma tendência a ver o mundo sob a sua ótica. Normalmente, tem certa dificuldade de escuta, de se colocar no lugar do outro. Não apresenta muito interesse em aproximar-se dos outros, possuindo, em muitos casos, dificuldade de expressar sentimentos de forma natural. Alguém com baixo nível de amabilidade tende a ter baixa empatia e não interagir com outras pessoas com facilidade. Muitas vezes, tem dificuldade de não expressar respeito por pontos de vista diferentes. Tendência a desconfiar dos outros. Dica: Reflita sobre essas características e veja como seria se fizesse um pequeno esforço para avançar na amabilidade.";
+				} else if (soma >= 25 && soma <= 36) {
+					situacao = "Você é capaz de identificar a importância da amabilidade, da empatia e do respeito nas relações, mas ainda não demonstra muita disponibilidade para portar-se desta forma. eventualmente está disponível para ações solidárias e de grupo. ainda precisa avançar em protagonismo e no trabalho colaborativo, mas já é capaz de mobilizar-se para algumas ações. Esse é o caminho! Dica: conte os momentos em que praticou a amabilidade e multiplique-os, para que sua vida seja mais cheia de risos e amigos.";
+				} else if (soma >= 37 && soma <= 60) {
+					situacao = "Você já se mostra empático, simpático, colaborativo e amável. é respeitoso com as outras pessoas, focalizando em suas capacidades e não em suas fragilidades; e evita a maledicência. é capaz de reconhecer e assumir erros. se coloca no lugar do outro, mobilizando-se para ações solidárias. busca o bem comum e defende causas humanitárias. pessoas com amabilidade bem desenvolvida são carismáticas e reconhecidas em seu entorno por suas atitudes em prol do bem comum. #gentilezageragentileza";
+				} else {
+					situacao = "Situação indefinida";
+				}
+				document.getElementById("questionario").innerHTML = "";
+				document.getElementById("resultado").innerHTML = situacao;
+			} else {
+				alert("Você deve reponder à todas as perguntas!");
+			}
+		}
+		window.onload = function() {
+			var btn_anterior = document.getElementById("anterior");
+			var btn_proxima = document.getElementById("proxima");
+			var btn_resultado = document.getElementById("ver_resultado");
+			btn_resultado.onclick = function() {resultado()};
+			var select_opcoes = document.getElementById("opcoes");
+			select_opcoes.innerHTML = "";
+			var option = document.createElement("option");
+			option.innerHTML = "";
+			option.setAttribute("value", "0");
+			select_opcoes.appendChild(option);
+			for (var i = 0; i < opcoes.length; i++) {
+				option = document.createElement("option");
+				option.innerHTML = opcoes[i];
+				option.setAttribute("value", i + 1);
+				select_opcoes.appendChild(option);
+			}
+			mostrar();
+		}
+		</script>
+	</head>
+	<body>
+		<h2>Amabilidade em Movimento</h2>
+		<div id="questionario">
+			<h1 id="situacao"></h1>
+			<p>Escolha uma das opções:</p>
+			<select id="opcoes"></select>
+			<p>
+			<div id="controles">
+				<button id="anterior">Anterior</button> <button id="proxima">Pŕoxima</button>
+				<p><button style="display: none" id="ver_resultado">Ver resultado</button></p>
+			</div>
+			</p>
+		</div>
+		<div id="resultado">
+			
+		</div>
+	</body>
+</html>
