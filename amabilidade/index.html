@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 	<head>
+		<title>Amabilidade em movimento</title>
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width,initial-scale=1"/>
+		<link rel="icon" href="img/icone.png"/>
+		<link rel="manifest" href="manifest.json">
 		<style>
 		body {
 			font-family: 'Arial';
@@ -138,6 +141,16 @@
 				select_opcoes.appendChild(option);
 			}
 			mostrar();
+		}
+		function registerServiceWorker() {
+			// registrando o service worker para navegadores com suporte
+			if ('serviceWorker' in navigator) {
+				navigator.serviceWorker.register('sw.js', { scope: '/' }).then(() => {
+					console.log('Service Worker registrado com sucesso.');
+				}).catch(error => {
+					console.log('Service Worker falhou:', error);
+				});
+			}
 		}
 		</script>
 	</head>
