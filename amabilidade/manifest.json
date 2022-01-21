@@ -5,7 +5,7 @@
   "short_name": "Amabilidade",
   "icons": [
     {
-      "src": "/amabilidade/img/icone.png",
+      "src": "/img/icone.png",
       "sizes": "192x192",
       "type": "image/png"
     }

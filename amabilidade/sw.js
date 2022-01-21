@@ -5,10 +5,10 @@ self.addEventListener('install', function (event) {
     caches.open(CACHE_NAME).then(function (cache) {
       return cache.addAll([
         '/',
-        '/amabilidade/index.html',
-        '/amabilidade/img/icone.png',
-        '/amabilidade/sw.js',
-        '/amabilidade/manifest.js',
+        '/index.html',
+        '/img/icone.png',
+        '/sw.js',
+        '/manifest.js',
       ]);
     })
   )
