@@ -6,9 +6,13 @@ self.addEventListener('install', function (event) {
       return cache.addAll([
         '/',
         '/index.html',
+        '/amabilidade/index.html',
         '/img/icone.png',
+        '/amabilidade/img/icone.png',
         '/sw.js',
+        '/amabilidade/sw.js',
         '/manifest.js',
+        '/amabilidade/manifest.js',
       ]);
     })
   )
