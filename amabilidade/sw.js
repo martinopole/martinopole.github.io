@@ -1,9 +1,9 @@
-var CACHE_NAME = 'static-v1';
+const CACHE_NAME = 'static-v1';
 
-self.addEventListener('install', function (event) {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(function (cache) {
-      return cache.addAll([
+self.addEventListener("install", installEvent => {
+  installEvent.waitUntil(
+    caches.open(CACHE_NAME).then(cache => {
+      cache.addAll([
         '/',
         '/index.html',
         '/amabilidade/index.html',
@@ -13,7 +13,7 @@ self.addEventListener('install', function (event) {
         '/amabilidade/sw.js',
         '/manifest.js',
         '/amabilidade/manifest.js',
-      ]);
+      ])
     })
   )
-});
+})
