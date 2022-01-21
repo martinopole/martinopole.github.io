@@ -12,7 +12,7 @@
   ],
   "theme_color": "#ff0066",
   "background_color": "#660066",
-  "start_url": "/",
+  "start_url": "/amabilidade",
   "display": "standalone",
   "orientation": "natural"
 }
