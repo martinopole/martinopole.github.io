@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>CALCULADORA DE FREQUÊNCIAS - MARTINÓPOLE 2022</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width"/>
+        <style>
+        body {
+            text-align: center;
+            font-size: 18pt;
+        }
+        #frequencia {
+            font-weight: bold;
+        }
+        </style>
+        <script>
+        function calcularFrequencia() {
+            var qtd_dias_frequentados = document.getElementById("qtdDiasFrequentados").value;
+            var qtd_dias_letivos = document.getElementById("qtdDiasLetivos").value;
+            var porcentagem = (qtd_dias_frequentados * 100) / qtd_dias_letivos;
+            console.log(porcentagem);
+            porcentagem = Math.ceil(porcentagem);
+            document.getElementById("frequencia").innerHTML = porcentagem + "% de frequência";
+        }
+        </script>
+    </head>
+    <body>
+        <p><b>CALCULADORA DE FREQUÊNCIAS - MARTINÓPOLE 2022</b></p>
+        <p>
+            Mês<br>
+            <select id="qtdDiasLetivos">
+                <option value="20">Fevereiro</option>
+                <option value="21">Março</option>
+            </select>
+        </p>
+        <p>
+            Quantidade de dias frequentados<br>
+            <input type="number" id="qtdDiasFrequentados" min="0"/>
+        </p>
+        <p>
+            <button onclick="calcularFrequencia()">Calcular Porcentagem</button>
+        </p>
+        <p id="frequencia"></p>
+    </body>
+</html>
