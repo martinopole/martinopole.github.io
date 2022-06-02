@@ -18,13 +18,12 @@
         }
         </style>
         <script>
-        var qtd_dias_letivos = [20, 21];
+        var qtd_dias_letivos = [20, 21, 18, 23];
         function calcularFrequencia() {
             var qtd_faltas = document.getElementById("qtdFaltas").value;
 
             var mes = document.getElementById("mes").value;
             var porcentagem = ((parseInt(qtd_dias_letivos[mes]) - qtd_faltas) * 100) / qtd_dias_letivos[mes];
-            console.log(porcentagem);
             porcentagem = Math.ceil(porcentagem);
             document.getElementById("frequencia").innerHTML = porcentagem + "% de frequência";
         }
@@ -35,8 +34,8 @@
         <p>
             Mês<br>
             <select id="mes">
-                <option value="0">Fevereiro</option>
-                <option value="1">Março</option>
+                <option value="2">Abril</option>
+                <option value="3">Maio</option>
             </select>
         </p>
         <p>
